@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PlayerService implements PlayerPort{
@@ -12,12 +13,14 @@ public class PlayerService implements PlayerPort{
     private List<Player> activePlayers = new ArrayList<>();
 
     @Override
-    public void addPlayer(Player player) {
+    public List<Player> addPlayer(Player player) {
         activePlayers.add(player);
+        return activePlayers;
     }
 
     @Override
-    public void removePlayerById(String id) {
-        activePlayers = activePlayers.stream().filter((player -> !player.getId().equals(id))).toList();
+    public List<Player> removePlayerById(String id) {
+        activePlayers = activePlayers.stream().filter((player -> !player.getId().equals(id))).collect(Collectors.toList());
+        return activePlayers;
     }
 }
